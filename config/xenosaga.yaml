@@ -38,17 +38,16 @@ segments:
     type: code
     start: 0x1000
     vram: 0x200000
-    bss_size: 0x4C108F
+    bss_size: 0x4C13a4
     subalign: null
     subsegments:
       # .text
       - [0x1000, asm, text]
 
       # .vutext
-      - [0x139570, textbin, vutext]
+      - [0x139570, data, vutext]
 
-      # TODO: skip reginfo??
-      - [0x139570, databin]
+      - [0x139570, databin] # .reginfo
 
       # .data
       - [0x139600, data, data]
@@ -62,9 +61,9 @@ segments:
 
       # .rodata
       - [0x2bf280, rodata, rodata]
-      # - [0x2bf280, data, rodata]
 
-      - [0x2d8b80, lit4] # .lit4
+      # .lit4
+      - [0x2d8b80, lit4] 
 
       # .sdata
       - [0x2d9a00, sdata, sdata]
@@ -72,11 +71,11 @@ segments:
       # .sbss
       - [0x2dd500, sbss, sbss]
 
-      # .bss
-      - [0x2dd56c, bss, bss]
-
       # .vubss
       - [0x2dd56c, data, vubss]
+
+      # .bss
+      - [0x2dd56c, bss, bss]
       
   - [0x2f18ec, databin] # overlay stuff?
   - [0x3021af, databin] # .shstrtab
