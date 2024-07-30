@@ -57,7 +57,6 @@ SLUS_204.69.*
 
 *.iso
 
-/iso
 /venv
 /asm
 /assets
