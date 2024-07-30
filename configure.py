@@ -66,8 +66,6 @@ def remove_gprel():
         for filename in files:
             filepath = os.path.join(root, filename)
 
-            gp_hack(filepath) # Hopefully I can get rid of this!
-
             with open(filepath, "r") as file:
                 content = file.read()
 
