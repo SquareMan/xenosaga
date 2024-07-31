@@ -1,12 +1,45 @@
 #include "common.h"
 
+// NOTE: might be the same struct as UnkStruct2
+typedef struct {
+  s8 Unk_0;
+  s8 Unk_1;
+} UnkStruct;
+
+typedef struct {
+  s8 unk_0;
+  s8 unk_1;
+  s8 unk_2;
+  s8 unk_3;
+  s16 unk_4;
+  s16 unk_6;
+  s32 unk_8;
+  s16 unk_c;
+  s16 unk_e;
+  s8 unk_10;
+  s8 unk_11;
+  s8 unk_12;
+  s8 unk_13;
+  s16 unk_14;
+  s16 unk_16;
+  s32 unk_18;
+  u8 unk_1c;
+  s8 unk_1d;
+  s8 unk_1e;
+  s8 unk_1f;
+  UNK_TYPE unk_20;
+} UnkStruct2;
+
 // TODO: Extract data symbols from rom
 UNK_TYPE D_004DA918;
 UNK_TYPE D_004DC5D4;
 
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageSpriteReset);
+void eMessageSpriteReset()
+{
+  D_004DA918 = 0;
+}
 
-void eMessageDrawType00(void) {
+void eMessageDrawType00() {
 }
 
 s32 eMessageHalfSpaseCheck(const char* str)
@@ -20,21 +53,132 @@ s32 eMessageHalfSpaseCheck(const char* str)
   return count;
 }
 
+// TODO: move to a header
+UNK_TYPE xglFontGetSPcodeSize(const char *, char);
+
+#if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyou);
+#else
+const char* eMessageNextGyou(const char* str)
+{
+  // char x1e = 0x1e;
+  char c = *str;
+  char* temp;
+  s32 count;
+  while(*str != NULL && *str != '\n')
+  {
+    if(c - 1 < 0x19)
+    {
+      str += xglFontGetSPcodeSize(*str, str) + 1;
+    }
+    else if (c == 0x1e) {
+      str +=2;
+    }
+    else if (c == 0x1f || c - 0x20 <  0x51)
+    {
+      str++;
+    }
+    else
+    {
+      count = eMessageHalfSpaseCheck(str);
+      temp = str + count;
+      str += 2;
+      if(count != 0)
+      {
+        str = temp;
+      }
+    }
 
+    c = *str;
+    str++;
+  }
+  return str;
+}
+#endif
+
+#if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
+#else
+s32 eMessageNextGyouMaxGet(const char* str)
+{
+  s32 ret = 0;
+  char c;
 
+  do{
+    ret++;
+    str = eMessageNextGyou(str);
+    if(*str == NULL)
+    {
+      return ret;
+    }
+    if(*str == '\n')
+    {
+      str++;
+    }
+  }while(*str != 0x1f);
+
+  return ret;
+}
+#endif
+
+const char* eMessageNextWaitKeySearch();
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextWaitKeySearch);
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageMain);
 
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageModeChange);
+void eMessageModeChange(UnkStruct* param_1, s8 param_2)
+{
+  param_1->Unk_1 = param_2;
+}
 
+eCursolSet(UNK_TYPE* param_1, UNK_TYPE param_2);
+
+#if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageSet);
+#else
+void eMessageSet(UnkStruct2* param_1, s32 param_2)
+{
+  param_1->unk_18 = param_2;
+  param_1->unk_0 = 1;
+  param_1->unk_3 = 0xf0;
+  param_1->unk_4 = 0;
+  param_1->unk_6 = 0;
+  param_1->unk_8 = 0;
+  param_1->unk_10 = 0x80;
+  param_1->unk_11 = 0x80;
+  param_1->unk_12 = 0x80;
+  param_1->unk_1 = 0;
+  param_1->unk_2 = 0;
+  param_1->unk_14 = 0;
+  param_1->unk_16 = 0;
+  param_1->unk_c = 0;
+  param_1->unk_e = 0;
+  param_1->unk_13 = 0x80;
+  param_1->unk_1d = 0;
+  param_1->unk_1c = 0;
+  eCursolSet(&param_1->unk_20,3);
+}
+#endif
 
+#if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageTextChange);
+#else
+void eMessageTextChange(UnkStruct2* param_1, s32 param_2)
+{
+  param_1->unk_18 = param_2;
+  if(param_1->unk_1c)
+  {
+    param_1->unk_1d = 0;
+    param_1->unk_1e = 0;
+    while(*eMessageNextWaitKeySearch() != NULL) 
+    {
+      param_1->unk_1e += 1;
+    }
+  }
+}
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextPage);
 
@@ -43,6 +187,10 @@ void eMessageDraw()
     eMessageMain();
 }
 
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCpy);
+void eMessageCpy(UNK_TYPE param_1, const char* str)
+{
+  D_004DC5D4 = param_1;
+  eMessageCat(str);
+}
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCat);
