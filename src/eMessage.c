@@ -4,9 +4,10 @@
 UNK_TYPE D_004DA918;
 UNK_TYPE D_004DC5D4;
 
-INCLUDE_ASM(const s32, "eMessage", eMessageSpriteReset);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageSpriteReset);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageDrawType00);
+void eMessageDrawType00(void) {
+}
 
 s32 eMessageHalfSpaseCheck(const char* str)
 {
@@ -19,29 +20,29 @@ s32 eMessageHalfSpaseCheck(const char* str)
   return count;
 }
 
-INCLUDE_ASM(const s32, "eMessage", eMessageNextGyou);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyou);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageNextGyouMaxGet);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageNextWaitKeySearch);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextWaitKeySearch);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageDrawType01);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageMain);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageMain);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageModeChange);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageModeChange);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageSet);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageSet);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageTextChange);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageTextChange);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageNextPage);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextPage);
 
 void eMessageDraw()
 {
     eMessageMain();
 }
 
-INCLUDE_ASM(const s32, "eMessage", eMessageCpy);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCpy);
 
-INCLUDE_ASM(const s32, "eMessage", eMessageCat);
+INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCat);
