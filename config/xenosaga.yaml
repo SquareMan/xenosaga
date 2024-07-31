@@ -25,7 +25,7 @@ options:
   named_regs_for_c_funcs: False
   gp_value: 0x4dfb70
 
-  find_file_boundaries: True
+  find_file_boundaries: False
   section_order:
     [".text", ".data", ".rodata", ".lit4", ".sdata", ".sbss", ".bss"]
 segments:
@@ -34,20 +34,20 @@ segments:
     type: code
     start: 0x1000
     vram: 0x200000
-    bss_size: 0x4C13a4
+    bss_size: 0x4C1090
     subalign: 4
     subsegments:
       # .text
       - [0x1000, asm]
-      # - [0x1920, asm]
-      # - [0x19B0, asm]
-      # - [0x7bcc8, c]
-      # - [0x7cf40, asm]
+      - [0x7bc78, c, eMessage]
+      - [0x7cf40, asm]
 
       - [0x139570, databin] # .reginfo
 
       # .data
       - [0x139600, data]
+      - [0x16d370, data, eMessage]
+      - [0x16d390, data]
 
       - [0x2aee54, databin] #.ctors
       - [0x2aee5c, databin] #.dtors
@@ -57,13 +57,16 @@ segments:
       - [0x2aee70, databin]
 
       # .rodata
-      - [0x2bf280, rodata]
+      - [0x2bf280, rodata, 1000]
+      - [0x2c47d0, rodata, 7CF40]
 
       # .lit4
       - [0x2d8b80, lit4] 
 
       # .sdata
       - [0x2d9a00, sdata]
+      - [0x2db918, sdata, eMessage]
+      - [0x2db930, sdata]
 
       # .sbss
       - {start: 0x2dd500, type: sbss, vram: 0x4dc500}
