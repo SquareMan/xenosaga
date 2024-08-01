@@ -119,15 +119,16 @@ s32 eMessageNextGyouMaxGet(const char *str)
   {
     ret++;
     str = eMessageNextGyou(str);
-    if (*str == NULL)
+    c = *str;
+    if (c == NULL)
     {
-      return ret;
+      break;
     }
-    if (*str == '\n')
+    if (c == '\n')
     {
       str++;
     }
-  } while (*str != 0x1f);
+  } while (c != 0x1f);
 
   return ret;
 }
