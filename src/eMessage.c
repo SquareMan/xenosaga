@@ -58,28 +58,34 @@ s32 eMessageHalfSpaseCheck(const char *str)
 }
 
 // TODO: move to a header
-UNK_TYPE xglFontGetSPcodeSize(const char *, char);
+extern s32 xglFontGetSPcodeSize(u8, const char *);
 
+// FIXME: This function matches. However, enabling it causes eMessageCat to include extra nops for some reason.
+//        This side effect seems extremely tempermental and disappears with other slight alterations to the file
+//        (removing xglFontGetSPcodeSize declaration, moving eMessageCat up the file, switching another function
+//        from asm to c, etc.). Hopefully this problem will simply resolve itself when more of the file is decompiled.
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyou);
 #else
 const char *eMessageNextGyou(const char *str)
 {
-  // char x1e = 0x1e;
-  char c = *str;
-  char *temp;
+  const char *temp;
   s32 count;
   while (*str != NULL && *str != '\n')
   {
-    if (c - 1 < 0x19)
+    if (*str > 0 && *str < 0x1A)
     {
       str += xglFontGetSPcodeSize(*str, str) + 1;
     }
-    else if (c == 0x1e)
+    else if (*str == 0x1e)
     {
       str += 2;
     }
-    else if (c == 0x1f || c - 0x20 < 0x51)
+    else if (*str == 0x1f)
+    {
+      str++;
+    }
+    else if (*str >= 0x20 && *str < 0x7F)
     {
       str++;
     }
@@ -87,15 +93,15 @@ const char *eMessageNextGyou(const char *str)
     {
       count = eMessageHalfSpaseCheck(str);
       temp = str + count;
-      str += 2;
       if (count != 0)
       {
         str = temp;
       }
+      else
+      {
+        str += 2;
+      }
     }
-
-    c = *str;
-    str++;
   }
   return str;
 }
