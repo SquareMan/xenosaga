@@ -60,16 +60,8 @@ s32 eMessageHalfSpaseCheck(const char *str)
 // TODO: move to a header
 extern s32 xglFontGetSPcodeSize(u8, const char *);
 
-// FIXME: This function matches. However, enabling it causes eMessageCat to include extra nops for some reason.
-//        This side effect seems extremely tempermental and disappears with other slight alterations to the file
-//        (removing xglFontGetSPcodeSize declaration, moving eMessageCat up the file, switching another function
-//        from asm to c, etc.). Hopefully this problem will simply resolve itself when more of the file is decompiled.
-#if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyou);
-#else
 const char *eMessageNextGyou(const char *str)
 {
-  const char *temp;
   s32 count;
   while (*str != NULL && *str != '\n')
   {
@@ -92,10 +84,9 @@ const char *eMessageNextGyou(const char *str)
     else
     {
       count = eMessageHalfSpaseCheck(str);
-      temp = str + count;
       if (count != 0)
       {
-        str = temp;
+        str += count;
       }
       else
       {
@@ -105,7 +96,6 @@ const char *eMessageNextGyou(const char *str)
   }
   return str;
 }
-#endif
 
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
@@ -134,8 +124,44 @@ s32 eMessageNextGyouMaxGet(const char *str)
 }
 #endif
 
-const char *eMessageNextWaitKeySearch();
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextWaitKeySearch);
+const char *eMessageNextWaitKeySearch(const char *str)
+{
+  s32 count;
+  while (*str != NULL)
+  {
+    if (*str == 0x1f)
+    {
+      str += 1;
+      break;
+    }
+
+    if (*str > 0 && *str < 0x1A)
+    {
+      str += xglFontGetSPcodeSize(*str, str) + 1;
+    }
+    else if (*str == 0x1e)
+    {
+      str += 2;
+    }
+    else if (*str >= 0x20 && *str < 0x7F)
+    {
+      str++;
+    }
+    else
+    {
+      count = eMessageHalfSpaseCheck(str);
+      if (count != 0)
+      {
+        str += count;
+      }
+      else
+      {
+        str += 2;
+      }
+    }
+  }
+  return str;
+}
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
 
