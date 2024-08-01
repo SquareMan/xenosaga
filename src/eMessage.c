@@ -24,10 +24,10 @@ typedef struct
   s8 unk_13;
   s16 unk_14;
   s16 unk_16;
-  s32 unk_18;
+  const char *Text;
   u8 unk_1c;
   u8 unk_1d;
-  u8 unk_1e;
+  u8 WaitKeyCount;
   s8 unk_1f;
   s32 unk_20;
 } UnkStruct2;
@@ -174,9 +174,9 @@ void eMessageModeChange(UnkStruct *param_1, s8 param_2)
 
 void eCursolSet(UNK_TYPE *param_1, UNK_TYPE param_2);
 
-void eMessageSet(UnkStruct2 *param_1, s32 param_2)
+void eMessageSet(UnkStruct2 *param_1, const char *MessageText)
 {
-  param_1->unk_18 = param_2;
+  param_1->Text = MessageText;
   param_1->unk_4 = 0;
   param_1->unk_6 = 0;
   param_1->unk_8 = 0;
@@ -197,24 +197,22 @@ void eMessageSet(UnkStruct2 *param_1, s32 param_2)
   eCursolSet(&param_1->unk_20, 3);
 }
 
-#if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageTextChange);
-#else
-void eMessageTextChange(UnkStruct2 *param_1, s32 param_2)
+void eMessageTextChange(UnkStruct2 *param_1, const char *NewText)
 {
-  param_1->unk_18 = param_2;
+  const char *it;
+
+  param_1->Text = NewText;
   if (param_1->unk_1c)
   {
     param_1->unk_1d = 0;
-    param_1->unk_1e = 0;
+    param_1->WaitKeyCount = 0;
 
-    while (*eMessageNextWaitKeySearch() != NULL)
+    for (it = eMessageNextWaitKeySearch(param_1->Text); *it != NULL; it = eMessageNextWaitKeySearch(it))
     {
-      param_1->unk_1e++;
+      param_1->WaitKeyCount++;
     }
   }
 }
-#endif
 
 s32 eMessageNextPage(UnkStruct2 *param_1, UNK_TYPE param_2)
 {
@@ -225,9 +223,9 @@ s32 eMessageNextPage(UnkStruct2 *param_1, UNK_TYPE param_2)
       if (param_1->unk_0 & 0x80)
       {
         param_1->unk_1d += 1;
-        if (param_1->unk_1d > param_1->unk_1e)
+        if (param_1->unk_1d > param_1->WaitKeyCount)
         {
-          param_1->unk_1d = param_1->unk_1e;
+          param_1->unk_1d = param_1->WaitKeyCount;
           return 0;
         }
         param_1->unk_1 = 0x22;
