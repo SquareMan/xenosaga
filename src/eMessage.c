@@ -1,13 +1,15 @@
 #include "common.h"
 
 // NOTE: might be the same struct as UnkStruct2
-typedef struct {
+typedef struct
+{
   s8 Unk_0;
   s8 Unk_1;
 } UnkStruct;
 
-typedef struct {
-  s8 unk_0;
+typedef struct
+{
+  u8 unk_0;
   s8 unk_1;
   s8 unk_2;
   s8 unk_3;
@@ -24,10 +26,10 @@ typedef struct {
   s16 unk_16;
   s32 unk_18;
   u8 unk_1c;
-  s8 unk_1d;
-  s8 unk_1e;
+  u8 unk_1d;
+  u8 unk_1e;
   s8 unk_1f;
-  UNK_TYPE unk_20;
+  s32 unk_20;
 } UnkStruct2;
 
 // TODO: Extract data symbols from rom
@@ -39,14 +41,16 @@ void eMessageSpriteReset()
   D_004DA918 = 0;
 }
 
-void eMessageDrawType00() {
+void eMessageDrawType00()
+{
 }
 
-s32 eMessageHalfSpaseCheck(const char* str)
+s32 eMessageHalfSpaseCheck(const char *str)
 {
   s32 count = 0;
 
-  while (*str++ == ' ') {
+  while (*str++ == ' ')
+  {
     count++;
   }
 
@@ -59,22 +63,23 @@ UNK_TYPE xglFontGetSPcodeSize(const char *, char);
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyou);
 #else
-const char* eMessageNextGyou(const char* str)
+const char *eMessageNextGyou(const char *str)
 {
   // char x1e = 0x1e;
   char c = *str;
-  char* temp;
+  char *temp;
   s32 count;
-  while(*str != NULL && *str != '\n')
+  while (*str != NULL && *str != '\n')
   {
-    if(c - 1 < 0x19)
+    if (c - 1 < 0x19)
     {
       str += xglFontGetSPcodeSize(*str, str) + 1;
     }
-    else if (c == 0x1e) {
-      str +=2;
+    else if (c == 0x1e)
+    {
+      str += 2;
     }
-    else if (c == 0x1f || c - 0x20 <  0x51)
+    else if (c == 0x1f || c - 0x20 < 0x51)
     {
       str++;
     }
@@ -83,7 +88,7 @@ const char* eMessageNextGyou(const char* str)
       count = eMessageHalfSpaseCheck(str);
       temp = str + count;
       str += 2;
-      if(count != 0)
+      if (count != 0)
       {
         str = temp;
       }
@@ -99,43 +104,44 @@ const char* eMessageNextGyou(const char* str)
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
 #else
-s32 eMessageNextGyouMaxGet(const char* str)
+s32 eMessageNextGyouMaxGet(const char *str)
 {
   s32 ret = 0;
   char c;
 
-  do{
+  do
+  {
     ret++;
     str = eMessageNextGyou(str);
-    if(*str == NULL)
+    if (*str == NULL)
     {
       return ret;
     }
-    if(*str == '\n')
+    if (*str == '\n')
     {
       str++;
     }
-  }while(*str != 0x1f);
+  } while (*str != 0x1f);
 
   return ret;
 }
 #endif
 
-const char* eMessageNextWaitKeySearch();
+const char *eMessageNextWaitKeySearch();
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextWaitKeySearch);
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageMain);
 
-void eMessageModeChange(UnkStruct* param_1, s8 param_2)
+void eMessageModeChange(UnkStruct *param_1, s8 param_2)
 {
   param_1->Unk_1 = param_2;
 }
 
-void eCursolSet(UNK_TYPE* param_1, UNK_TYPE param_2);
+void eCursolSet(UNK_TYPE *param_1, UNK_TYPE param_2);
 
-void eMessageSet(UnkStruct2* param_1, s32 param_2)
+void eMessageSet(UnkStruct2 *param_1, s32 param_2)
 {
   param_1->unk_18 = param_2;
   param_1->unk_4 = 0;
@@ -155,35 +161,63 @@ void eMessageSet(UnkStruct2* param_1, s32 param_2)
   param_1->unk_e = 0;
   param_1->unk_1d = 0;
   param_1->unk_1c = 0;
-  eCursolSet(&param_1->unk_20,3);
+  eCursolSet(&param_1->unk_20, 3);
 }
 
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageTextChange);
 #else
-void eMessageTextChange(UnkStruct2* param_1, s32 param_2)
+void eMessageTextChange(UnkStruct2 *param_1, s32 param_2)
 {
   param_1->unk_18 = param_2;
-  if(param_1->unk_1c)
+  if (param_1->unk_1c)
   {
     param_1->unk_1d = 0;
     param_1->unk_1e = 0;
-    while(*eMessageNextWaitKeySearch() != NULL) 
+
+    while (*eMessageNextWaitKeySearch() != NULL)
     {
-      param_1->unk_1e += 1;
+      param_1->unk_1e++;
     }
   }
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextPage);
+s32 eMessageNextPage(UnkStruct2 *param_1, UNK_TYPE param_2)
+{
+  if (param_1->unk_1c)
+  {
+    if (param_2 == 0)
+    {
+      if (param_1->unk_0 & 0x80)
+      {
+        param_1->unk_1d += 1;
+        if (param_1->unk_1d > param_1->unk_1e)
+        {
+          param_1->unk_1d = param_1->unk_1e;
+          return 0;
+        }
+        param_1->unk_1 = 0x22;
+      }
+      else
+      {
+        param_1->unk_1 = 0x20;
+      }
+
+      return 1;
+    }
+
+    param_1->unk_1d = 0;
+  }
+  return 0;
+}
 
 void eMessageDraw()
 {
-    eMessageMain();
+  eMessageMain();
 }
 
-void eMessageCpy(UNK_TYPE param_1, const char* str)
+void eMessageCpy(UNK_TYPE param_1, const char *str)
 {
   D_004DC5D4 = param_1;
   eMessageCat(str);
