@@ -1,16 +1,9 @@
 #include "common.h"
 
-// NOTE: might be the same struct as UnkStruct2
-typedef struct
-{
-  s8 Unk_0;
-  s8 Unk_1;
-} UnkStruct;
-
 typedef struct
 {
   u8 unk_0;
-  s8 unk_1;
+  s8 Mode; // Is this an enum? bitfield?
   s8 unk_2;
   s8 unk_3;
   s16 unk_4;
@@ -30,11 +23,11 @@ typedef struct
   u8 WaitKeyCount;
   s8 unk_1f;
   s32 unk_20;
-} UnkStruct2;
+} eMessage;
 
 // TODO: Extract data symbols from rom
-UNK_TYPE D_004DA918;
-UNK_TYPE D_004DC5D4;
+UNK_TYPE D_004DA918; // msg_spr_count
+UNK_TYPE D_004DC5D4; // MessageCpyEnd
 
 void eMessageSpriteReset()
 {
@@ -47,9 +40,10 @@ void eMessageDrawType00()
 
 s32 eMessageHalfSpaseCheck(const char *str)
 {
+  const char *it = str;
   s32 count = 0;
 
-  while (*str++ == ' ')
+  while (*it++ == ' ')
   {
     count++;
   }
@@ -62,39 +56,40 @@ extern s32 xglFontGetSPcodeSize(u8, const char *);
 
 const char *eMessageNextGyou(const char *str)
 {
+  const char *it = str;
   s32 count;
-  while (*str != NULL && *str != '\n')
+  while (*it != NULL && *it != '\n')
   {
-    if (*str > 0 && *str < 0x1A)
+    if (*it > 0 && *it < 0x1A)
     {
-      str += xglFontGetSPcodeSize(*str, str) + 1;
+      it += xglFontGetSPcodeSize(*it, it) + 1;
     }
-    else if (*str == 0x1e)
+    else if (*it == 0x1e)
     {
-      str += 2;
+      it += 2;
     }
-    else if (*str == 0x1f)
+    else if (*it == 0x1f)
     {
-      str++;
+      it++;
     }
-    else if (*str >= 0x20 && *str < 0x7F)
+    else if (*it >= 0x20 && *it < 0x7F)
     {
-      str++;
+      it++;
     }
     else
     {
-      count = eMessageHalfSpaseCheck(str);
+      count = eMessageHalfSpaseCheck(it);
       if (count != 0)
       {
-        str += count;
+        it += count;
       }
       else
       {
-        str += 2;
+        it += 2;
       }
     }
   }
-  return str;
+  return it;
 }
 
 #if 1
@@ -103,20 +98,21 @@ INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
 s32 eMessageNextGyouMaxGet(const char *str)
 {
   s32 ret = 0;
+  const char *it = str;
   char c;
 
   do
   {
+    it = eMessageNextGyou(it);
     ret++;
-    str = eMessageNextGyou(str);
-    c = *str;
+    c = *it;
     if (c == NULL)
     {
       break;
     }
     if (c == '\n')
     {
-      str++;
+      it++;
     }
   } while (c != 0x1f);
 
@@ -126,119 +122,120 @@ s32 eMessageNextGyouMaxGet(const char *str)
 
 const char *eMessageNextWaitKeySearch(const char *str)
 {
+  const char *it = str;
   s32 count;
-  while (*str != NULL)
+  while (*it != NULL)
   {
-    if (*str == 0x1f)
+    if (*it == 0x1f)
     {
-      str += 1;
+      it += 1;
       break;
     }
 
-    if (*str > 0 && *str < 0x1A)
+    if (*it > 0 && *it < 0x1A)
     {
-      str += xglFontGetSPcodeSize(*str, str) + 1;
+      it += xglFontGetSPcodeSize(*it, it) + 1;
     }
-    else if (*str == 0x1e)
+    else if (*it == 0x1e)
     {
-      str += 2;
+      it += 2;
     }
-    else if (*str >= 0x20 && *str < 0x7F)
+    else if (*it >= 0x20 && *it < 0x7F)
     {
-      str++;
+      it++;
     }
     else
     {
-      count = eMessageHalfSpaseCheck(str);
+      count = eMessageHalfSpaseCheck(it);
       if (count != 0)
       {
-        str += count;
+        it += count;
       }
       else
       {
-        str += 2;
+        it += 2;
       }
     }
   }
-  return str;
+  return it;
 }
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
 
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageMain);
 
-void eMessageModeChange(UnkStruct *param_1, s8 param_2)
+void eMessageModeChange(eMessage *Message, s8 NewMode)
 {
-  param_1->Unk_1 = param_2;
+  Message->Mode = NewMode;
 }
 
 void eCursolSet(UNK_TYPE *param_1, UNK_TYPE param_2);
 
-void eMessageSet(UnkStruct2 *param_1, const char *MessageText)
+void eMessageSet(eMessage *Message, const char *NewText)
 {
-  param_1->Text = MessageText;
-  param_1->unk_4 = 0;
-  param_1->unk_6 = 0;
-  param_1->unk_8 = 0;
-  param_1->unk_10 = 0x80;
-  param_1->unk_11 = 0x80;
-  param_1->unk_12 = 0x80;
-  param_1->unk_13 = 0x80;
-  param_1->unk_0 = 1;
-  param_1->unk_1 = 0;
-  param_1->unk_2 = 0;
-  param_1->unk_3 = 0xf0;
-  param_1->unk_14 = 0;
-  param_1->unk_16 = 0;
-  param_1->unk_c = 0;
-  param_1->unk_e = 0;
-  param_1->unk_1d = 0;
-  param_1->unk_1c = 0;
-  eCursolSet(&param_1->unk_20, 3);
+  Message->Text = NewText;
+  Message->unk_4 = 0;
+  Message->unk_6 = 0;
+  Message->unk_8 = 0;
+  Message->unk_10 = 0x80;
+  Message->unk_11 = 0x80;
+  Message->unk_12 = 0x80;
+  Message->unk_13 = 0x80;
+  Message->unk_0 = 1;
+  Message->Mode = 0;
+  Message->unk_2 = 0;
+  Message->unk_3 = 0xf0;
+  Message->unk_14 = 0;
+  Message->unk_16 = 0;
+  Message->unk_c = 0;
+  Message->unk_e = 0;
+  Message->unk_1d = 0;
+  Message->unk_1c = 0;
+  eCursolSet(&Message->unk_20, 3);
 }
 
-void eMessageTextChange(UnkStruct2 *param_1, const char *NewText)
+void eMessageTextChange(eMessage *Message, const char *NewText)
 {
   const char *it;
 
-  param_1->Text = NewText;
-  if (param_1->unk_1c)
+  Message->Text = NewText;
+  if (Message->unk_1c)
   {
-    param_1->unk_1d = 0;
-    param_1->WaitKeyCount = 0;
+    Message->unk_1d = 0;
+    Message->WaitKeyCount = 0;
 
-    for (it = eMessageNextWaitKeySearch(param_1->Text); *it != NULL; it = eMessageNextWaitKeySearch(it))
+    for (it = eMessageNextWaitKeySearch(Message->Text); *it != NULL; it = eMessageNextWaitKeySearch(it))
     {
-      param_1->WaitKeyCount++;
+      Message->WaitKeyCount++;
     }
   }
 }
 
-s32 eMessageNextPage(UnkStruct2 *param_1, UNK_TYPE param_2)
+s32 eMessageNextPage(eMessage *Message, UNK_TYPE param_2)
 {
-  if (param_1->unk_1c)
+  if (Message->unk_1c)
   {
     if (param_2 == 0)
     {
-      if (param_1->unk_0 & 0x80)
+      if (Message->unk_0 & 0x80)
       {
-        param_1->unk_1d += 1;
-        if (param_1->unk_1d > param_1->WaitKeyCount)
+        Message->unk_1d += 1;
+        if (Message->unk_1d > Message->WaitKeyCount)
         {
-          param_1->unk_1d = param_1->WaitKeyCount;
+          Message->unk_1d = Message->WaitKeyCount;
           return 0;
         }
-        param_1->unk_1 = 0x22;
+        Message->Mode = 0x22;
       }
       else
       {
-        param_1->unk_1 = 0x20;
+        Message->Mode = 0x20;
       }
 
       return 1;
     }
 
-    param_1->unk_1d = 0;
+    Message->unk_1d = 0;
   }
   return 0;
 }
