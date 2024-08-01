@@ -133,34 +133,30 @@ void eMessageModeChange(UnkStruct* param_1, s8 param_2)
   param_1->Unk_1 = param_2;
 }
 
-eCursolSet(UNK_TYPE* param_1, UNK_TYPE param_2);
+void eCursolSet(UNK_TYPE* param_1, UNK_TYPE param_2);
 
-#if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageSet);
-#else
 void eMessageSet(UnkStruct2* param_1, s32 param_2)
 {
   param_1->unk_18 = param_2;
-  param_1->unk_0 = 1;
-  param_1->unk_3 = 0xf0;
   param_1->unk_4 = 0;
   param_1->unk_6 = 0;
   param_1->unk_8 = 0;
   param_1->unk_10 = 0x80;
   param_1->unk_11 = 0x80;
   param_1->unk_12 = 0x80;
+  param_1->unk_13 = 0x80;
+  param_1->unk_0 = 1;
   param_1->unk_1 = 0;
   param_1->unk_2 = 0;
+  param_1->unk_3 = 0xf0;
   param_1->unk_14 = 0;
   param_1->unk_16 = 0;
   param_1->unk_c = 0;
   param_1->unk_e = 0;
-  param_1->unk_13 = 0x80;
   param_1->unk_1d = 0;
   param_1->unk_1c = 0;
   eCursolSet(&param_1->unk_20,3);
 }
-#endif
 
 #if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageTextChange);
