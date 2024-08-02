@@ -45,9 +45,6 @@ s32 eMessageHalfSpaseCheck(const char* str)
     {
         count++;
     }
-    switch (it)
-    {
-    }
 
     return count;
 }
@@ -195,24 +192,9 @@ void eMessageSet(eMessage* Message, const char* NewText)
     eCursolSet(&Message->unk_20, 3);
 }
 
-void eMessageTextChange(
-    eMessage* Message,
-    const char* NewText,
-    eMessage* Message,
-    const char* NewText,
-    eMessage* Message,
-    const char* NewText,
-    eMessage* Message,
-    const char* NewText,
-    eMessage* Message,
-    const char* NewText
-)
+void eMessageTextChange(eMessage* Message, const char* NewText)
 {
     const char* it;
-
-    eMessageTextChange(
-        Message, NewText, Message, NewText, Message, Message, Message, Message, Message, Message
-    );
 
     Message->Text = NewText;
     if (Message->unk_1c)
