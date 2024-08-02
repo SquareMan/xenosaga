@@ -5,27 +5,24 @@ options:
   basename: SLUS_204.69
   target_path: iso/SLUS_204.69
   base_path: ..
-
   asm_path: asm
   src_path: src
   build_path: build
-
-  extensions_path: tools/splat_ext
-  symbol_addrs_path: config/symbol_addrs.txt
   undefined_funcs_auto_path: config/undefined_funcs_auto.txt
   undefined_syms_auto_path: config/undefined_syms_auto.txt
-
-  use_legacy_include_asm: False
+  symbol_addrs_path: config/symbol_addrs.txt
 
   # compiler
   compiler: EEGCC
   platform: ps2
 
+  gp_value: 0x4dfb70
+  use_legacy_include_asm: False
+  named_regs_for_c_funcs: False
+  disasm_unknown: True
+
   string_encoding: ASCII
   rodata_string_guesser_level: 2 # improve string detection
-  disasm_unknown: True
-  named_regs_for_c_funcs: False
-  gp_value: 0x4dfb70
 
   find_file_boundaries: False
   section_order:
