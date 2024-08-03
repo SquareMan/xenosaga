@@ -62,6 +62,8 @@ SLUS_204.69.*
 /assets
 
 permuter_settings.toml
+/nonmatchings
+
 undefined_funcs_auto.txt
 undefined_syms_auto.txt
 /.vscode
