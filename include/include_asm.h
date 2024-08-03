@@ -6,6 +6,7 @@
 #ifndef INCLUDE_ASM
 #define INCLUDE_ASM(FOLDER, NAME)                                                                  \
     __asm__(".section .text\n"                                                                     \
+            "    .balign 8\n"                                                                      \
             "    .set noat\n"                                                                      \
             "    .set noreorder\n"                                                                 \
             "    .globl " #NAME ".NON_MATCHING\n"                                                  \
@@ -13,7 +14,8 @@
             "    " #NAME ".NON_MATCHING:\n"                                                        \
             "    .include \"" FOLDER "/" #NAME ".s\"\n"                                            \
             "    .set reorder\n"                                                                   \
-            "    .set at\n")
+            "    .set at\n"                                                                        \
+            "    .balign 4\n")
 #endif
 
 #ifndef INCLUDE_RODATA
