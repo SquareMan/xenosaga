@@ -48,6 +48,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+.ninja_deps
 .ninja_log
 .splache
 build.ninja
@@ -60,7 +61,11 @@ SLUS_204.69.*
 /venv
 /asm
 /assets
+/build
 
+objdiff.json
+
+# decomp_permuter configuration
 permuter_settings.toml
 /nonmatchings
 

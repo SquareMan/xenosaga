@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -8,7 +9,7 @@ import sys
 import re
 
 from   pathlib import Path
-from   typing  import Dict, List, Set, Union
+from   typing  import Any, Dict, List, Set, Union, Optional
 
 import ninja_syntax
 
@@ -191,6 +192,15 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         command=f"{cross}objcopy $in $out -O binary",
     )
 
+    decompctx = Path("tools") / "decompctx.py"
+    ninja.rule(
+        name="decompctx",
+        command=f"$python {decompctx} $in -o $out -d $out.d",
+        description="CTX $in",
+        depfile="$out.d",
+        deps="gcc",
+    )
+
     for entry in linker_entries:
         seg = entry.segment
 
@@ -206,8 +216,10 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             build(entry.object_path, entry.src_paths, "as")
         elif isinstance(seg, splat.segtypes.common.cpp.CommonSegCpp):
             build(entry.object_path, entry.src_paths, "cpp")
+            build(entry.object_path.parent / f"{seg.name}.ctx", entry.src_paths, "decompctx")
         elif isinstance(seg, splat.segtypes.common.c.CommonSegC):
             build(entry.object_path, entry.src_paths, "cc")
+            build(entry.object_path.parent / f"{seg.name}.ctx", entry.src_paths, "decompctx")
         elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin) or isinstance(seg, splat.segtypes.common.rodatabin.CommonSegRodatabin):
             build(entry.object_path, entry.src_paths, "as")
         else:
@@ -235,6 +247,75 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         implicit=[ELF_PATH],
     )
 
+# Generate objdiff.json
+# Hacked together from dtk template. Not generically transferrable to other projects
+def generate_objdiff_config(
+    linker_entries: List[LinkerEntry], 
+) -> None:
+    objdiff_config: Dict[str, Any] = {
+        "min_version": "1.0.0",
+        "custom_make": "ninja",
+        "build_target": False,
+        "watch_patterns": [
+            "*.c",
+            "*.cp",
+            "*.cpp",
+            "*.h",
+            "*.hpp",
+            "*.inc",
+            "*.py",
+            "*.yml",
+            "*.txt",
+            "*.json",
+        ],
+        "units": [],
+    }
+
+    build_path = "build"
+
+    def add_unit(entry: LinkerEntry) -> None:
+        if entry.segment.type not in ["c", "cpp"]:
+            return
+
+        obj_name = entry.segment.name
+        unit_config: Dict[str, Any] = {
+            "name": entry.segment.name,
+            "target_path": Path("expected") / entry.object_path.relative_to(Path(build_path)),
+        }
+
+        unit_src_path = entry.segment.out_path()
+
+        if not unit_src_path.exists():
+            objdiff_config["units"].append(unit_config)
+            return
+
+        src_obj_path = entry.object_path
+        src_ctx_path = entry.object_path.parent / f"{entry.segment.name}.ctx"
+
+        unit_config["base_path"] = src_obj_path
+        # TODO: Detect fully matching TUs
+        unit_config["complete"] = False
+        compiler_version = "ee-gcc2.96"
+        unit_config["scratch"] = {
+            "platform": "ps2",
+            "compiler": compiler_version,
+            "c_flags": COMPILER_FLAGS,
+            "ctx_path": src_ctx_path,
+            "build_ctx": True,
+        }
+        objdiff_config["units"].append(unit_config)
+
+    # Add units
+    for unit in linker_entries:
+        add_unit(unit)
+
+    # Write objdiff.json
+    with open("objdiff.json", "w", encoding="utf-8") as w:
+
+        def unix_path(input: Any) -> str:
+            return str(input).replace(os.sep, "/") if input else ""
+
+        json.dump(objdiff_config, w, indent=4, default=unix_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Configure the project")
@@ -275,6 +356,8 @@ if __name__ == "__main__":
     linker_entries = split.linker_writer.entries
 
     build_stuff(linker_entries)
+
+    generate_objdiff_config(linker_entries)
 
     write_permuter_settings()
 
