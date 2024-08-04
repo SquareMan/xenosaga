@@ -30,7 +30,7 @@ PRE_ELF_PATH = f"build/{BASENAME}.elf"
 COMMON_INCLUDES = "-Iinclude -Isrc -isystem include/sdk/ee -isystem include/sdk -isystem include/gcc -isystem include/gcc/gcc-lib"
 COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 
-COMPILER_FLAGS     = "-O2"
+COMPILER_FLAGS     = "-O2 -Wa,-Iinclude"
 COMPILER_FLAGS_CPP = "-O2 c++"
 
 COMPILE_CMD = (
@@ -55,6 +55,8 @@ def exec_shell(command: List[str], stdout = subprocess.PIPE) -> str:
 def clean():
     if os.path.exists(".splache"):
         os.remove(".splache")
+    if os.path.exists("compile_commands.json"):
+        os.remove("compile_commands.json")
     shutil.rmtree("asm", ignore_errors=True)
     shutil.rmtree("assets", ignore_errors=True)
     shutil.rmtree("build", ignore_errors=True)

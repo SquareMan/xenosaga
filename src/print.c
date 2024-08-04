@@ -1,7 +1,7 @@
 #include "common.h"
 
 // .sbss
-UNK_TYPE D_004DC5D8;
+UNK_TYPE pPrintFuncTop;
 
 // .lit4
 f32 D_004D7DA4;

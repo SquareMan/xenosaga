@@ -27,14 +27,14 @@ typedef struct
 
 // TODO: Extract data symbols from rom
 // .sdata
-UNK_TYPE D_004DA918; // msg_spr_count
+UNK_TYPE msg_spr_count;
 
 // .sbss
-UNK_TYPE D_004DC5D4; // MessageCpyEnd
+UNK_TYPE MessageCpyEnd;
 
 void eMessageSpriteReset()
 {
-    D_004DA918 = 0;
+    msg_spr_count = 0;
 }
 
 void eMessageDrawType00() {}
@@ -249,7 +249,7 @@ void eMessageDraw()
 
 void eMessageCpy(UNK_TYPE param_1, const char* str)
 {
-    D_004DC5D4 = param_1;
+    MessageCpyEnd = param_1;
     eMessageCat(str);
 }
 

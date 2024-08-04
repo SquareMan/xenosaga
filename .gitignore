@@ -62,6 +62,7 @@ SLUS_204.69.*
 /asm
 /assets
 /build
+/expected
 
 objdiff.json
 
