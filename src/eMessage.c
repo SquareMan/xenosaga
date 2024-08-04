@@ -26,7 +26,10 @@ typedef struct
 } eMessage;
 
 // TODO: Extract data symbols from rom
+// .sdata
 UNK_TYPE D_004DA918; // msg_spr_count
+
+// .sbss
 UNK_TYPE D_004DC5D4; // MessageCpyEnd
 
 void eMessageSpriteReset()
