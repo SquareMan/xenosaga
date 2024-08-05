@@ -23,7 +23,9 @@ options:
 
   string_encoding: ASCII
   rodata_string_guesser_level: 2 # improve string detection
-
+  
+  migrate_rodata_to_functions: False 
+  
   find_file_boundaries: False
   section_order:
     [".text", ".data", ".rodata", ".lit4", ".sdata", ".sbss", ".bss"]
@@ -120,7 +122,7 @@ segments:
       - [0x18738, asm]
       - [0x19220, asm]
       # - [0x1923c, asm] # Just a nop, why does this have a __gnu_compiled_c symbol?
-      - [0x19240, asm, main]
+      - [0x19240, c, main]
       - [0x194b8, asm]
       - [0x198a0, asm]
       - [0x19a68, asm]
