@@ -76,40 +76,21 @@ def remove_gprel():
             # INSTR REG, %gp_rel(SYMBOL)($28) -> INSTR REG, SYMBOL
             if re.search(gp_access_pattern, content):
                 # Reference found, remove
-                updated_content = re.sub(gp_access_pattern, r'\2', content)
+                content = re.sub(gp_access_pattern, r'\2', content)
 
                 # Write the updated content back to the file
                 with open(filepath, "w") as file:
-                    file.write(updated_content)
+                    file.write(content)
             
             # Search for any %gp_rel additions
             # addiu REG, $28, %gp_rel(SYMBOL) -> la REG, SYMBOL
             if re.search(gp_add_pattern, content):
                 # Reference found, replace
-                updated_content = re.sub(gp_add_pattern, r'la \1, \2', content)
+                content = re.sub(gp_add_pattern, r'la \1, \2', content)
 
                 # Write the updated content back to the file
                 with open(filepath, "w") as file:
-                    file.write(updated_content)
-
-EUC_HACK_FILENAME_TABLE = ["TsDrawUPacket.s", "_P3MC_SetBrowsInfo.s"]
-def eucjp_convert():
-    for root, dirs, files in os.walk("asm/nonmatchings/"):
-        for filename in files:
-            if filename.startswith("D_") or filename in EUC_HACK_FILENAME_TABLE:
-                filepath = os.path.join(root, filename)
-
-                if filename in EUC_HACK_FILENAME_TABLE:
-                    print(f"(HACK) Converting {filename}")
-
-                with open(filepath, "r", encoding="utf-8") as file:
-                    content = file.read()
-
-                eucjp_content = content.encode("euc-jp").decode("euc-jp")
-
-                with open(filepath, "w", encoding="euc-jp") as file:
-                    file.write(eucjp_content)
-
+                    file.write(content)
 
 def write_permuter_settings():
     with open("permuter_settings.toml", "w") as f:
@@ -339,12 +320,6 @@ if __name__ == "__main__":
         help="Do not remove gp_rel references on the disassembly",
         action="store_true",
     )
-    parser.add_argument(
-        "-noconvert",
-        "--no-eucjp-converting",
-        help="Do not convert to EUC-JP the disassembly strings",
-        action="store_true",
-    )
     args = parser.parse_args()
 
     if args.clean:
@@ -366,9 +341,6 @@ if __name__ == "__main__":
     # We're done with everything, now get rid of the %gp_rel references
     if not args.no_gprel_removing:
         remove_gprel()
-
-    if not args.no_eucjp_converting:
-        eucjp_convert()
 
     if not os.path.isfile("compile_commands.json"):
         exec_shell(["ninja", "-t", "compdb"], open("compile_commands.json", "w"))
