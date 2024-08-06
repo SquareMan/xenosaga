@@ -36,7 +36,7 @@ segments:
     start: 0x1000
     vram: 0x200000
     bss_size: 0x4C1090
-    subalign: 4
+    subalign: null
     subsegments:
       # .text
       - [0x1000, asm]
@@ -253,12 +253,12 @@ segments:
       - [0xecd90, asm]
       - [0xed310, asm]
       - [0xefc50, asm]
-      - [0xefebc, asm]
+      # - [0xefebc, asm] # just a nop
       - [0xefec0, asm]
       - [0xeffe0, asm]
       - [0xf1018, asm]
       - [0xf12c0, asm]
-      - [0xf1c64, asm]
+      # - [0xf1c64, asm] # just a nop
       - [0xf1c68, asm]
       - [0xf2708, asm]
       - [0xf2b00, asm]
@@ -288,7 +288,7 @@ segments:
       - [0x102400, asm]
       - [0x105d40, asm]
       - [0x105d70, asm]
-      - [0x106444, asm]
+      # - [0x106444, asm] # just a nop
       - [0x106448, asm]
       - [0x106998, asm]
       - [0x107578, asm]
@@ -368,7 +368,7 @@ segments:
       - [0x12d418, asm]
       - [0x12d4b8, asm]
       - [0x12d4e8, asm]
-      - [0x12d53c, asm]
+      # - [0x12d53c, asm] # just a nop
       - [0x12d540, asm]
       - [0x12d5e0, asm]
       - [0x12eb50, asm]
@@ -385,7 +385,7 @@ segments:
       - [0x12f138, asm]
       - [0x12f158, asm]
       - [0x12f168, asm]
-      - [0x12f214, asm]
+      # - [0x12f214, asm] # just a nop
       - [0x12f218, asm]
       - [0x12f2b8, asm]
       - [0x12ff40, asm]
@@ -408,7 +408,7 @@ segments:
       - [0x134ca8, asm]
       - [0x134d58, asm]
       - [0x134e68, asm]
-      - [0x134e84, asm]
+      # - [0x134e84, asm] # just a nop
       - [0x134e88, asm]
       - [0x136320, asm]
       - [0x136438, asm]
@@ -421,7 +421,7 @@ segments:
       - [0x137318, asm]
       - [0x137430, asm]
       - [0x138448, asm]
-      - [0x1385fc, asm]
+      # - [0x1385fc, asm] # just a nop
       - [0x138600, asm]
       - [0x138648, asm]
       - [0x138688, asm]
@@ -443,16 +443,17 @@ segments:
       - [0x16d370, data, eMessage]
       - [0x16d390, data]
 
-      - [0x2aee54, databin] #.ctors
-      - [0x2aee5c, databin] #.dtors
-      - [0x2aee68, databin] #.eh_frame
+      # FIXME: Can't get the alignment right
+      # - [0x2aee54, databin, ctors] #.ctors
+      # - [0x2aee5c, databin, dtors] #.dtors
+      # - [0x2aee68, databin, eh_frame] #.eh_frame
 
       # .vudata
       - [0x2aee70, databin]
 
       # .rodata
-      - [0x2bf280, rodata, main]
-      - [0x2bf2e0, rodata, Game]
+      - [0x2bf280, .rodata, main]
+      - [0x2bf2b0, rodata, Game]
       - [0x2bf308, rodata, Map]
       - [0x2c0750, rodata, GameCamera]
       - [0x2c0768, rodata, GameCfPlayer]
@@ -757,7 +758,8 @@ segments:
       - [0x2d8b80, lit4] 
 
       # .sdata
-      - [0x2d9a00, sdata]
+      - [0x2d9a00, .sdata, main]
+      - [0x2d9a50, sdata]
       - [0x2db918, sdata, eMessage]
       - [0x2db930, sdata]
 
@@ -765,6 +767,8 @@ segments:
       - {start: 0x2dd500, type: sbss, vram: 0x4dc500}
       # .bss
       - {start: 0x2dd56c, type: bss, vram: 0x4dc880}
+
+
   - [0x2dd500, databin] # padding
   - [0x2f18ec, databin] # overlay stuff?
   - [0x3021af, databin] # .shstrtab
