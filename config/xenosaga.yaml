@@ -132,26 +132,60 @@ segments:
       - [0x1d528, c, xgl/task]
       - [0x1d788, c, xgl/menu]
       - [0x1ded0, c, xgl/cd]
-
-      - [0x1fff8, c, xgl/cd_TEMPHACK] ##FIXME: Get rid of this when it doesn't cause nops
-
-      - [0x20b58, asm, xgl/mc]
-      - [0x21c58, asm, xgl/movie]
+      - [0x20b58, c, xgl/mc]
+      - [0x21c58, c, xgl/movie]
       - [0x23878, c, xgl/flags]
       - [0x23bd0, c, xgl/prim]
-      - [0x242a8, asm, xgl/jpeg]
-      - [0x26a58, asm, xgl/sound]
-      - [0x281a0, asm, xgl/hdd]
-      - [0x29c58, asm, xgl/math]
+      - [0x242a8, c, xgl/jpeg]
+      
+      # xglJpegEncode and FFIDCT will not match no matter how I fudge the .baligns, hack them out for now
+      - [0x24fc0, asm, xgl/jpeg_NOPHACK_xglJpegEncode]
+      - [0x25898, c, xgl/jpeg_NOPHACK_1] 
+      - [0x25e10, asm , xgl/jpeg_FFIDCT]
+      - [0x260d8, c, xgl/jpeg_NOPHACK_2]
+
+      - [0x26a58, c, xgl/sound]
+      - [0x281a0, c, xgl/hdd]
+
+      # another nop hack
+      - [0x28970, asm, xgl/hdd_Judge_MakeNewSavedata]
+      - [0x28b30, c, xgl/hdd_NOPHACK_1]
+
+      - [0x29c58, c, xgl/math]
       - [0x2bc30, c, xgl/light]
-      - [0x2bec0, asm, xgl/camera]
-      - [0x2d268, asm, xgl/packet]
-      - [0x2d558, asm, xgl/studio]
-      - [0x2d8b8, asm, xgl/render]
-      - [0x2ee28, asm, nml/model]
-      - [0x37448, asm, nml/packet]
-      - [0x3b290, asm, nml/filter]
-      - [0x3f0e0, asm, xgl/culling]
+      - [0x2bec0, c, xgl/camera]
+      - [0x2d268, c, xgl/packet]
+      - [0x2d558, c, xgl/studio]
+      - [0x2d8b8, c, xgl/render]
+
+      - [0x2dc08, asm, xgl/render_xglRenderSyncMove]
+      - [0x2dc90, c, xgl/render_NOPHACK_1]
+
+      - [0x2ee28, c, nml/model]
+
+      - [0x31c00, asm, nml/model_AlphaGroupLastEntry]
+      - [0x31d68, c, nml/model_NOPHACK_1]
+      - [0x338e0, asm, nml/model_nmlModelCalcEntryPartsClip]
+      - [0x33b00, asm, nml/model_nmlModelEntryEffect]
+      - [0x34980, c, nml/model_NOPHACK_2]
+      - [0x357d0, asm, nml/model_nmlModelRenderTexture]
+      - [0x35b70, c, nml/model_NOPHACK_3]
+      - [0x35c40, asm, nml/model_nmlModelRenderDrop]
+      - [0x361f0, asm, nml/model_nmlModelFlushSubAlpha]
+      - [0x36a08, c, nml/model_NOPHACK_4]
+      - [0x36ff8, asm, nml/model_nmlModelFlush]
+      - [0x37408, c, nml/model_NOPHACK_5]
+
+      - [0x37448, c, nml/packet]
+
+      - [0x38ee8, asm, nml/packet_nmlPacketAddParts]
+      - [0x394e8, c, nml/packet_NOPHACK_1]
+
+      - [0x3b290, c, nml/filter]
+
+      - [0x3e8b8, asm, nml/filter_nmlFilterSetVolumeCubeRender]
+
+      - [0x3f0e0, c, xgl/culling]
 
       # ssd funcs?
       - [0x40960, asm]

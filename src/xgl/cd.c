@@ -86,22 +86,20 @@ INCLUDE_ASM("asm/nonmatchings/xgl/cd", FileSelectListReload);
 
 INCLUDE_ASM("asm/nonmatchings/xgl/cd", FileSelectSub);
 
-// FIXME: Merge this with cd_TEMPHACK when it doesn't cause NOPs
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdFileSelect);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdFileSelect);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdSifLoadModule);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdSifLoadModule);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdLoadOverlay);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdLoadOverlay);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub0);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub0);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub1);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub1);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub2);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInitSub2);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInit);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcInit);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcCheck);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdArcCheck);
-
-// INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdInitial);
+INCLUDE_ASM("asm/nonmatchings/xgl/cd", xglCdInitial);
