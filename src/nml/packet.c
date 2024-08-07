@@ -74,3 +74,82 @@ INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketClrModelCache);
 
 INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddTexture);
 
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddParts);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddTextureParam);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", add_exec_prog);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddExecProg);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddTransData);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetAttributeData);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetAttributeData64);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetAttributeData64N);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetAttributeData16N);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetAttributeAlloc16N);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGifTag);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGifTagStandard);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddFog);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddPixelControl);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketDirectData);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketSetCurrent);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddReflRot);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddScreenClear);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketGsInit);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsClamp);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsPixeltest);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsPixeltest1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsZbuf);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsZbuf1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsTexture);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsAlpha);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsAlpha1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsScissor);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsScissor1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFBA);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFBA1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFogCol);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFrame);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFrame1);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsPAbe);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsPrmode);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsPrmodecont);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", packet_gs_entry32);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", packet_gs_entry64);
+
+INCLUDE_ASM("asm/nonmatchings/nml/packet", nmlPacketAddGsFba);

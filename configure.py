@@ -8,14 +8,14 @@ import subprocess
 import sys
 import re
 
-from   pathlib import Path
-from   typing  import Any, Dict, List, Set, Union, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Set, Union, Optional
 
 import ninja_syntax
 
 import splat
 import splat.scripts.split as split
-from   splat.segtypes.linker_entry import LinkerEntry
+from splat.segtypes.linker_entry import LinkerEntry
 
 ROOT = Path(__file__).parent
 TOOLS_DIR = ROOT / "tools"
@@ -30,25 +30,20 @@ PRE_ELF_PATH = f"build/{BASENAME}.elf"
 COMMON_INCLUDES = "-Iinclude -Isrc -isystem include/sdk/ee -isystem include/sdk -isystem include/gcc -isystem include/gcc/gcc-lib"
 COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 
-COMPILER_FLAGS     = "-O2 -Wa,-Iinclude"
+COMPILER_FLAGS = "-O2 -Wa,-Iinclude"
 COMPILER_FLAGS_CPP = "-O2 c++"
 
-COMPILE_CMD = (
-    f"{COMPILER_DIR}/ee-gcc -c {COMMON_INCLUDES} {COMPILER_FLAGS}"
-)
-COMPILE_CMD_CPP = (
-    f"{COMPILER_DIR}/ee-gcc -c {COMMON_INCLUDES} {COMPILER_FLAGS_CPP}"
-)
+COMPILE_CMD = f"{COMPILER_DIR}/ee-gcc -c {COMMON_INCLUDES} {COMPILER_FLAGS}"
+COMPILE_CMD_CPP = f"{COMPILER_DIR}/ee-gcc -c {COMMON_INCLUDES} {COMPILER_FLAGS_CPP}"
 
 WIBO_VER = "0.6.11"
 
 # CALCULATE PROGRESS TODO:
 # python3 -m mapfile_parser progress build/SCPS_150.17.map asm asm/nonmatchings/
 
-def exec_shell(command: List[str], stdout = subprocess.PIPE) -> str:
-    ret = subprocess.run(
-        command, stdout=stdout, stderr=subprocess.PIPE, text=True
-    )
+
+def exec_shell(command: List[str], stdout=subprocess.PIPE) -> str:
+    ret = subprocess.run(command, stdout=stdout, stderr=subprocess.PIPE, text=True)
     return ret.stdout
 
 
@@ -62,8 +57,14 @@ def clean():
     shutil.rmtree("build", ignore_errors=True)
 
 
-gp_access_pattern = re.compile(r'%(gp_rel)\(([^)]+)\)\(\$28\)') # Pattern for removing %gp_rel accesses
-gp_add_pattern = re.compile(r'addiu\s+(\$\d+), \$28, %gp_rel\(([^)]+)\)') # Pattern for replacing %gp_rel additions
+gp_access_pattern = re.compile(
+    r"%(gp_rel)\(([^)]+)\)\(\$28\)"
+)  # Pattern for removing %gp_rel accesses
+gp_add_pattern = re.compile(
+    r"addiu\s+(\$\d+), \$28, %gp_rel\(([^)]+)\)"
+)  # Pattern for replacing %gp_rel additions
+
+
 def remove_gprel():
     for root, dirs, files in os.walk("asm/nonmatchings/"):
         for filename in files:
@@ -76,21 +77,22 @@ def remove_gprel():
             # INSTR REG, %gp_rel(SYMBOL)($28) -> INSTR REG, SYMBOL
             if re.search(gp_access_pattern, content):
                 # Reference found, remove
-                content = re.sub(gp_access_pattern, r'\2', content)
+                content = re.sub(gp_access_pattern, r"\2", content)
 
                 # Write the updated content back to the file
                 with open(filepath, "w") as file:
                     file.write(content)
-            
+
             # Search for any %gp_rel additions
             # addiu REG, $28, %gp_rel(SYMBOL) -> la REG, SYMBOL
             if re.search(gp_add_pattern, content):
                 # Reference found, replace
-                content = re.sub(gp_add_pattern, r'la \1, \2', content)
+                content = re.sub(gp_add_pattern, r"la \1, \2", content)
 
                 # Write the updated content back to the file
                 with open(filepath, "w") as file:
                     file.write(content)
+
 
 def write_permuter_settings():
     with open("permuter_settings.toml", "w") as f:
@@ -199,11 +201,21 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             build(entry.object_path, entry.src_paths, "as")
         elif isinstance(seg, splat.segtypes.common.cpp.CommonSegCpp):
             build(entry.object_path, entry.src_paths, "cpp")
-            build(entry.object_path.parent / f"{seg.name}.ctx", entry.src_paths, "decompctx")
+            build(
+                entry.object_path.parent / f"{seg.name}.ctx",
+                entry.src_paths,
+                "decompctx",
+            )
         elif isinstance(seg, splat.segtypes.common.c.CommonSegC):
             build(entry.object_path, entry.src_paths, "cc")
-            build(entry.object_path.parent / f"{seg.name}.ctx", entry.src_paths, "decompctx")
-        elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin) or isinstance(seg, splat.segtypes.common.rodatabin.CommonSegRodatabin):
+            build(
+                entry.object_path.parent / f"{seg.name}.ctx",
+                entry.src_paths,
+                "decompctx",
+            )
+        elif isinstance(
+            seg, splat.segtypes.common.databin.CommonSegDatabin
+        ) or isinstance(seg, splat.segtypes.common.rodatabin.CommonSegRodatabin):
             build(entry.object_path, entry.src_paths, "as")
         else:
             print(f"ERROR: Unsupported build segment type {seg.type}")
@@ -230,10 +242,11 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         implicit=[ELF_PATH],
     )
 
+
 # Generate objdiff.json
 # Hacked together from dtk template. Not generically transferrable to other projects
 def generate_objdiff_config(
-    linker_entries: List[LinkerEntry], 
+    linker_entries: List[LinkerEntry],
 ) -> None:
     objdiff_config: Dict[str, Any] = {
         "min_version": "1.0.0",
@@ -263,7 +276,8 @@ def generate_objdiff_config(
         obj_name = entry.segment.name
         unit_config: Dict[str, Any] = {
             "name": entry.segment.name,
-            "target_path": Path("expected") / entry.object_path.relative_to(Path(build_path)),
+            "target_path": Path("expected")
+            / entry.object_path.relative_to(Path(build_path)),
         }
 
         unit_src_path = entry.segment.out_path()
@@ -300,6 +314,55 @@ def generate_objdiff_config(
 
         json.dump(objdiff_config, w, indent=4, default=unix_path)
 
+
+# Workaround hack to avoid the "short loop bug" inserting undesirable noops in some functions.
+# replaces all asm instructions in each file in the `short_loop_funcs` array with the raw opcode bytes
+opcode_pattern = re.compile(
+    r"\/\* [0-9A-Z]+ [0-9A-Z]+ ([0-9A-Z]{2})([0-9A-Z]{2})([0-9A-Z]{2})([0-9A-Z]{2}) .*"
+)  # Pattern for removing %gp_rel accesses
+nop_bugged_funcs = set(
+    [
+        "Judge_MakeNewSavedata.s",
+        "xglRenderSyncMove.s",
+        "AlphaGroupLastEntry.s",
+        "nmlModelCalcEntryPartsClip.s",
+        "nmlModelEntry.s",
+        "nmlModelRenderTexture.s",
+        "nmlModelRenderCircle.s",
+        "nmlModelRenderDrop.s",
+        "nmlModelFlushSubNonAlpha.s",
+        "nmlModelFlushSubAlpha.s",
+        "nmlModelFlush.s",
+        "nmlPacketAddParts.s",
+        "nmlFilterSetVolumeCubeRender.s",
+        "xglJpegEncode.s",
+        "FFIDCT.s",
+        "ConvertYUV2RGB.s",
+    ]
+)
+
+
+def replace_instructions_with_opcodes() -> None:
+    for root, dirs, files in os.walk("asm/nonmatchings/"):
+        for filename in files:
+            if filename not in nop_bugged_funcs:
+                continue
+
+            filepath = os.path.join(root, filename)
+
+            with open(filepath, "r") as file:
+                content = file.read()
+
+            if re.search(opcode_pattern, content):
+                # Reference found, replace
+                # Embed the opcode, we have to swap byte order for correct endianness
+                content = re.sub(opcode_pattern, r".long 0x\4\3\2\1", content)
+
+                # Write the updated content back to the file
+                with open(filepath, "w") as file:
+                    file.write(content)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Configure the project")
     parser.add_argument(
@@ -320,11 +383,17 @@ if __name__ == "__main__":
         help="Do not remove gp_rel references on the disassembly",
         action="store_true",
     )
+    parser.add_argument(
+        "-noop",
+        "--no-opcode-hack",
+        help="Do not replace asm instructions with raw opcodes for functions that trigger the short loop bug",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     if args.clean:
         clean()
-    
+
     if args.cleansrc:
         shutil.rmtree("src", ignore_errors=True)
 
@@ -341,6 +410,9 @@ if __name__ == "__main__":
     # We're done with everything, now get rid of the %gp_rel references
     if not args.no_gprel_removing:
         remove_gprel()
+
+    if not args.no_opcode_hack:
+        replace_instructions_with_opcodes()
 
     if not os.path.isfile("compile_commands.json"):
         exec_shell(["ninja", "-t", "compdb"], open("compile_commands.json", "w"))

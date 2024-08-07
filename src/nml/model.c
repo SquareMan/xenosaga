@@ -344,3 +344,73 @@ INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelDirectSendXtx);
 INCLUDE_ASM("asm/nonmatchings/nml/model", set_group_status);
 
 INCLUDE_ASM("asm/nonmatchings/nml/model", AlphaGroupSortEntry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", AlphaGroupLastEntry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", AlphaGroupSort);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", is_shadow_map_parts);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", is_parts_transparency);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", is_block_last_entry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", parent_buf_entry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", parent_buf_search);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", set_circle_shadow_ratio);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelLexDataCheck);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelLexBlockDoit);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelStealthEntry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcSample);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcEntryClip);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", deapth_for_studio);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcSpecularClip);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcDropShadow);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcEntryProjectCircle);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcEntryProjectMap);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelCalcEntryPartsClip);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelEntry);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelEntryEffect);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelEntryCard);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelRenderProreal);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelRenderTexture);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelRenderCircle);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelRenderDropCircle);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelRenderDrop);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelFlushSubNonAlpha);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelFlushSubAlpha);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelFlushSub);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelConstruct);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelInit);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelClear);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelFlush);
+
+INCLUDE_ASM("asm/nonmatchings/nml/model", nmlModelFlushClear);

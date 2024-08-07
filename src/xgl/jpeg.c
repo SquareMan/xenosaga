@@ -46,30 +46,28 @@ INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", HuffmanEncode);
 
 INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", ExtractHuffmanTableSub);
 
-// FIXME: Merge these funcs back in from jpeg_NOPHACK.c
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", xglJpegEncode);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", xglJpegEncode);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineRestartInterval);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineRestartInterval);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineQuantizeTable);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineQuantizeTable);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", StartOfFrame);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", StartOfFrame);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineHuffmanTable);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", DefineHuffmanTable);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", GetBit);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", GetBit);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", decode_sub);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", decode_sub);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", HuffmanDecode);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", HuffmanDecode);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", FFIDCT);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", FFIDCT);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", ConvertMCU2YUV);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", ConvertMCU2YUV);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", ConvertYUV2RGB);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", ConvertYUV2RGB);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", StartOfScan);
 
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", StartOfScan);
-
-// INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", xglJpegDecode);
+INCLUDE_ASM("asm/nonmatchings/xgl/jpeg", xglJpegDecode);

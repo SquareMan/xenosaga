@@ -45,3 +45,5 @@ INCLUDE_ASM("asm/nonmatchings/nml/filter", nmlFilterBackClear);
 INCLUDE_ASM("asm/nonmatchings/nml/filter", nmlFilterSetFlatRender);
 
 INCLUDE_ASM("asm/nonmatchings/nml/filter", nmlFilterSetTexFillDraw);
+
+INCLUDE_ASM("asm/nonmatchings/nml/filter", nmlFilterSetVolumeCubeRender);
