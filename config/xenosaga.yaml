@@ -761,6 +761,8 @@ segments:
 
       # .lit4
       - [0x2d8b80, lit4] 
+      - [0x2d981c, lit4, xgl/math]
+      - [0x2d985c, lit4]
 
       # .sdata
       - [0x2d9a00, .sdata, main]
@@ -769,7 +771,9 @@ segments:
       - [0x2db930, sdata]
 
       # .sbss
-      - {start: 0x2dd500, type: sbss, vram: 0x4dc500}
+      - {start: 0x2dd500, type: sbss, vram: 0x4dc500, name: 0x4dc500}
+      - {start: 0x2dd56c, type: sbss, vram: 0x4dc6e8, name: xgl/math}
+      - {start: 0x2dd56c, type: sbss, vram: 0x4dc6ec, name: 0x4dc6ec}
       # .bss
       - {start: 0x2dd56c, type: bss, vram: 0x4dc880}
 
