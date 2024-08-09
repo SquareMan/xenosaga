@@ -1,5 +1,5 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef XGL_MATH_H
+#define XGL_MATH_H
 
 #include "common.h"
 

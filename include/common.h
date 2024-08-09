@@ -16,7 +16,7 @@ typedef unsigned long u64;
 typedef float f32;
 
 #define UNK_TYPE s32
-#define UNK_PTR void *
+#define UNK_PTR void*
 #define UNK_RET void
 #define UNK_FUN_ARG void (*)(void)
 #define UNK_FUN_PTR(name) void (*name)(void)
@@ -31,5 +31,8 @@ typedef float f32;
 #ifndef FALSE
 #define FALSE 0
 #endif
+
+#define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
+#define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
 #endif /* COMMON_H */
