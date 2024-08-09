@@ -504,7 +504,7 @@ s32 F2I(f32 f)
 
 // Equivalent: Missing extra nop.
 #if 1
-// INCLUDE_ASM("asm/nonmatchings/xgl/math", I2F);
+INCLUDE_ASM("asm/nonmatchings/xgl/math", I2F);
 #else
 f32 I2F(s32 i)
 {
