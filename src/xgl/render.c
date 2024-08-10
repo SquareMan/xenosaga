@@ -1,3 +1,5 @@
+#include "render.h"
+
 #include "common.h"
 
 // .sdata
@@ -11,7 +13,6 @@ u32 s_nClearFrame;
 u32 FrameCount;
 u32 LoopCount;
 u32 VSyncCount;
-u32 ScanLineInterpolate;
 
 INCLUDE_ASM("asm/nonmatchings/xgl/render", xglRenderDrawFlip);
 

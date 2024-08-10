@@ -3,7 +3,7 @@
 #include "common.h"
 
 // .sbss
-u64 iRandSeed;
+extern u64 iRandSeed;
 
 // .lit4
 f32 D_004D881C; // = 0.0028662258;
