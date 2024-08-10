@@ -291,7 +291,7 @@ def generate_objdiff_config(
 
         unit_config["base_path"] = src_obj_path
         # TODO: Detect fully matching TUs
-        unit_config["complete"] = False
+        unit_config["complete"] = not os.path.isdir(f"asm/nonmatchings/{entry.segment.name}")
         compiler_version = "ee-gcc2.96"
         unit_config["scratch"] = {
             "platform": "ps2",
