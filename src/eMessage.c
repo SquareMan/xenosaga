@@ -2,7 +2,7 @@
 
 #include "xgl/font.h"
 
-// size >= 0x24
+// size >= 0x2c
 typedef struct
 {
     u8 Flags;
@@ -61,7 +61,7 @@ typedef struct
 UNK_TYPE msg_spr_count;
 
 // .sbss
-UNK_TYPE MessageCpyEnd;
+char* MessageCpyEnd;
 
 // .bss
 char moji[4096];
@@ -656,7 +656,7 @@ void eMessageModeChange(eMessage* Message, s8 NewMode)
     Message->Mode = NewMode;
 }
 
-void eCursolSet(UNK_TYPE* param_1, UNK_TYPE param_2);
+void eCursolSet(u8* param_1, UNK_TYPE param_2);
 
 void eMessageSet(eMessage* Message, const char* NewText)
 {
@@ -683,7 +683,7 @@ void eMessageSet(eMessage* Message, const char* NewText)
 
 void eMessageTextChange(eMessage* Message, const char* NewText)
 {
-    const char* it;
+    const s8* it;
 
     Message->Text = NewText;
     if (Message->unk_1c)
@@ -733,10 +733,73 @@ void eMessageDraw()
     eMessageMain();
 }
 
-void eMessageCpy(UNK_TYPE param_1, const char* str)
+void eMessageCat(const char* str);
+void eMessageCpy(char* buf, const char* str)
 {
-    MessageCpyEnd = param_1;
+    MessageCpyEnd = buf;
     eMessageCat(str);
 }
 
+#if 1
 INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCat);
+#else
+void eMessageCat(const char* str)
+{
+    const char* it = str;
+    char* end;
+    s32 pcode_size;
+    s32 i;
+
+    end = MessageCpyEnd;
+    if (it == NULL)
+    {
+        return;
+    }
+
+    while (*it != NULL)
+    {
+        if (*it >= 1 && *it <= 0x19)
+        {
+            pcode_size = xglFontGetSPcodeSize(*it, it) + 1;
+
+            for (i = 0; i < pcode_size; i++)
+            {
+                *end++ = *it++;
+            }
+        }
+        else if (*it == 0x1e)
+        {
+            *end++ = *it++;
+            *end++ = *it++;
+            *end++ = *it++;
+        }
+        else if (*it == 0x1f)
+        {
+            *end++ = *it++;
+        }
+        else if (*it >= ' ' && *it < 0x7e)
+        {
+            *end++ = *it++;
+        }
+        else
+        {
+            pcode_size = eMessageHalfSpaseCheck(it);
+            if (pcode_size != 0)
+            {
+                for (i = 0; i < pcode_size; i++)
+                {
+                    *end++ = *it++;
+                }
+            }
+            else
+            {
+                *end++ = *it++;
+                *end++ = *it++;
+            }
+        }
+    }
+
+    *end = NULL;
+    MessageCpyEnd = end;
+}
+#endif
