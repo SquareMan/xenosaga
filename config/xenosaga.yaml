@@ -163,7 +163,7 @@ segments:
       - [0x47098, c, PauseMenu]
       - [0x47428, c, Map]
       - [0x47918, c, GameCamera]
-      - [0x49ff8, asm, GameCfPlayer]
+      - [0x49ff8, c, GameCfPlayer]
       - [0x4b378, asm, command]
       - [0x4eaa0, asm, GameSnapshot]
       - [0x4f240, asm, GameDefocus]
