@@ -343,6 +343,7 @@ nop_bugged_funcs = set(
         "Game_Data_Pop.s",
         "checkItemBox.s",
         "GameModeCfMain.s",
+        "command_loadsmd.s",
     ]
 )
 

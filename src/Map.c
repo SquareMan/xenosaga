@@ -1,6 +1,6 @@
-#include "common.h"
+#include "Map.h"
 
-u8 UseTestPath;
+#include "common.h"
 
 INCLUDE_ASM("asm/nonmatchings/Map", MAP_getPath);
 

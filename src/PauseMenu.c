@@ -1,11 +1,9 @@
+#include "PauseMenu.h"
+
 #include "common.h"
-
-#include "xgl/render.h"
-
 #include "main.h"
 
-//.sdata
-u8 SnapDrawCreditFlag;
+#include "xgl/render.h"
 
 INCLUDE_ASM("asm/nonmatchings/PauseMenu", DrawShadow);
 
