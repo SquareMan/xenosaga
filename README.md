@@ -20,7 +20,8 @@ On Windows it is higly recommended to use a linux environment (WSL2/Docker/etc.)
 
 For Ubunutu 22.04 LTS:
 
-1. Add 32-bit architecture and packages. `dpkg --add-architecture i386 && apt-get update && apt-get install -y libc6:i386`
+1. Add 32-bit architecture and packages. `dpkg --add-architecture i386 && apt-get update`
+1. Install package dependencies. `apt-get install -y libc6:i386 gcc-mipsel-linux-gnu binutils-mips-linux-gnu python3 python3-pip`
 1. Install python dependencies. `python3 -m pip install -U -r requirements.txt`
 
 ### Project Setup
