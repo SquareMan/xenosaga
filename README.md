@@ -1,5 +1,10 @@
 # Xenosaga Episode I: Der Wille zur Macht Decompilation
 
+[![Build Status]][actions]
+
+[Build Status]: https://github.com/SquareMan/xenosaga/actions/workflows/build.yml/badge.svg
+[actions]: https://github.com/SquareMan/xenosaga/actions/workflows/build.yml
+
 > :construction: TODO: Progress Tracking
 
 A work-in-progress decompilation of [*Xenosaga Episode I*](https://en.wikipedia.org/wiki/Xenosaga_Episode_I)
