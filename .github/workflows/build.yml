@@ -35,5 +35,5 @@ jobs:
       # Build the project
       - name: Build
         run: |
-          python configure.py 
+          python3 configure.py 
           ninja
