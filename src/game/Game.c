@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "main.h"
+#include "SCRIPT.h"
 
 // .sbss
 s32 saveEffe;
@@ -11,8 +12,6 @@ s32 pause_check;
 s32 shopNo;
 u8 GameCFSoundMenuPurgeFlag;
 s32 attrPrev;
-s32 UseVMFlag;
-s32 stageVM;
 
 // .sdata
 s32 UmnSimulationNo;
