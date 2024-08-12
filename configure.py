@@ -344,6 +344,8 @@ nop_bugged_funcs = set(
         "checkItemBox.s",
         "GameModeCfMain.s",
         "command_loadsmd.s",
+        "xtxdec_sub.s",
+        "tyaSiPicOutput.s"
     ]
 )
 

@@ -1,5 +1,6 @@
 #include "common.h"
 
+#include "DiskChange.h"
 #include "Map.h"
 #include "PauseMenu.h"
 #include "command.h"
@@ -8,7 +9,6 @@
 #include "xgl/render.h"
 
 // .sdata
-u8 GameDiskChangeT10K;
 u8 DebugMenuResourceSizeAdd;
 
 INCLUDE_ASM("asm/nonmatchings/game/PauseMenuPage", PauseMenuPage0);
