@@ -131,7 +131,7 @@ const char* eMessageNextGyou(const char* str)
 }
 
 #if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageNextGyouMaxGet);
+INCLUDE_ASM("asm/nonmatchings/game/eMessage", eMessageNextGyouMaxGet);
 #else
 s32 eMessageNextGyouMaxGet(const char* str)
 {
@@ -199,7 +199,7 @@ const char* eMessageNextWaitKeySearch(const char* str)
 }
 
 #if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageDrawType01);
+INCLUDE_ASM("asm/nonmatchings/game/eMessage", eMessageDrawType01);
 #else
 void eMessageDrawType01(eMessage* Message)
 {
@@ -649,7 +649,7 @@ void eMessageDrawType01(eMessage* Message)
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageMain);
+INCLUDE_ASM("asm/nonmatchings/game/eMessage", eMessageMain);
 
 void eMessageModeChange(eMessage* Message, s8 NewMode)
 {
@@ -741,7 +741,7 @@ void eMessageCpy(char* buf, const char* str)
 }
 
 #if 1
-INCLUDE_ASM("asm/nonmatchings/eMessage", eMessageCat);
+INCLUDE_ASM("asm/nonmatchings/game/eMessage", eMessageCat);
 #else
 void eMessageCat(const char* str)
 {

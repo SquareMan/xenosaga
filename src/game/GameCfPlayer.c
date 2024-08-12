@@ -24,20 +24,20 @@ f32 D_004D7C34; // = 0.0099999998;
 f32 D_004D7C38; // = 1.9;
 f32 D_004D7C3C; // = 0.0099999998;
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", LookAt_Player);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", LookAt_Player);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", Player_System_Init);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", Player_System_Init);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", GameCfPlayerMoveParamSet);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", GameCfPlayerMoveParamSet);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", GameCfPlayerMoveInit);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", GameCfPlayerMoveInit);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", GameCfPlayerMove);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", GameCfPlayerMove);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", HitCheckActor);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", HitCheckActor);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", NyuruActor);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", NyuruActor);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", PlayerLookAtAim);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", PlayerLookAtAim);
 
-INCLUDE_ASM("asm/nonmatchings/GameCfPlayer", GameCfPlayerLoadResource);
+INCLUDE_ASM("asm/nonmatchings/game/GameCfPlayer", GameCfPlayerLoadResource);
