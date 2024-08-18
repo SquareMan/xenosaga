@@ -20,11 +20,17 @@ root_dir = os.path.abspath(os.path.join(script_dir, ".."))
 src_dir = os.path.join(root_dir, "src")
 include_dirs = [
     os.path.join(root_dir, "include"),
+    os.path.join(root_dir, "include/sdk"),
+    os.path.join(root_dir, "include/sdk/ee"),
+    os.path.join(root_dir, "include/gcc"),
+    os.path.join(root_dir, "include/gcc/gcc-lib"),
+    os.path.join(root_dir, "include/gcc/machine"),
+    os.path.join(root_dir, "include/gcc/sys"),
     # Add additional include directories here
 ]
 
-include_pattern = re.compile(r'^#include\s*[<"](.+?)[>"]$')
-guard_pattern = re.compile(r"^#ifndef\s+(.*)$")
+include_pattern = re.compile(r'^#\s*include\s*[<"](.+?)[>"]$')
+guard_pattern = re.compile(r"^#\s*ifndef\s+(.*)$")
 
 defines = set()
 
@@ -57,14 +63,13 @@ def import_c_file(in_file: str, deps: List[str]) -> str:
 
 
 def process_file(in_file: str, lines: List[str], deps: List[str]) -> str:
-    #HACK: use this define to disable INCLUDE_ASM in scratch upload
-    out_text = "#define DECOMPME\n\n"
+    out_text = ""
     for idx, line in enumerate(lines):
         guard_match = guard_pattern.match(line.strip())
         if idx == 0:
             if guard_match:
                 if guard_match[1] in defines:
-                   break
+                    break
                 defines.add(guard_match[1])
             print("Processing file", in_file)
         include_match = include_pattern.match(line.strip())
@@ -104,7 +109,9 @@ def main():
     args = parser.parse_args()
 
     deps = []
-    output = import_c_file(args.c_file, deps)
+    # HACK: use this define to disable INCLUDE_ASM in scratch upload
+    output = "#define DECOMPME\n\n"
+    output += import_c_file(args.c_file, deps)
 
     with open(os.path.join(root_dir, args.output), "w", encoding="utf-8") as f:
         f.write(output)
