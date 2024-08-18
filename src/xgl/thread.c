@@ -31,24 +31,18 @@ s32 xglCreateSignal()
 }
 #endif
 
-#if 1
-INCLUDE_ASM("asm/nonmatchings/xgl/thread", xglThreadRotate);
-#else
 void xglThreadRotate()
 {
     iRotateSignal = xglCreateSignal();
+
     while (TRUE)
     {
-        do
-        {
-            WakeupThread(asActiveThreadList[iCurrentThread].id);
-            WaitSema(iRotateSignal);
-            iCurrentThread++;
-        } while (iCurrentThread < 4);
-        iCurrentThread = 0;
+        WakeupThread(asActiveThreadList[iCurrentThread].id);
+        WaitSema(iRotateSignal);
+        iCurrentThread++;
+        if (iCurrentThread >= 4) iCurrentThread = 0;
     }
 }
-#endif
 
 void xglSleep()
 {
@@ -89,7 +83,6 @@ void xglThreadInitial()
 
         sThreadParam.stack = asActiveThreadList[i].stack = next_stack - asSystemThreadList[i].stack;
         sThreadParam.stackSize = asActiveThreadList[i].stackSize = asSystemThreadList[i].stackSize;
-
 
         asActiveThreadList[i].id = CreateThread(&sThreadParam);
         StartThread(asActiveThreadList[i].id, 0);
